@@ -125,6 +125,7 @@
 			_cmb_Pagesize.Name = "_cmb_Pagesize";
 			_cmb_Pagesize.Size = new Size(97, 23);
 			_cmb_Pagesize.TabIndex = 5;
+			_cmb_Pagesize.SelectedIndexChanged += _cmb_Pagesize_SelectedIndexChanged;
 			// 
 			// _lbl_Page
 			// 

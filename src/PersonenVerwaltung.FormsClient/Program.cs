@@ -17,7 +17,7 @@ namespace PersonenVerwaltung.FormsClient
 			services.AddSingleton<MainForm>();
 			services.AddHttpClient<PersonenVerwaltungClient>((sp, cl) =>
 			{
-				cl.BaseAddress = new Uri("https://localhost:7083/api/personal-verwaltung/v1/", UriKind.Absolute);
+				cl.BaseAddress = new Uri("https://localhost:7083/api/personen-verwaltung/v1/", UriKind.Absolute);
 			});
 
 			var provider = services.BuildServiceProvider();

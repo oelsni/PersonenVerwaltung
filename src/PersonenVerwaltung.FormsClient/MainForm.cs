@@ -8,13 +8,13 @@ namespace PersonenVerwaltung.FormsClient
 		{
 			InitializeComponent();
 
-			_cmb_Pagesize.SelectedIndex = 2;
-			_client = client;
 			_persons = Array.Empty<PersonDto>();
 			_loadTask = Task.CompletedTask;
 			_updateTask = Task.CompletedTask;
-			_lsv_Persons.SelectedIndexChanged += _lsv_Persons_SelectedIndexChanged;
 			_personDialog = new PersonDialog();
+			_client = client;
+			_lsv_Persons.SelectedIndexChanged += _lsv_Persons_SelectedIndexChanged;
+			_cmb_Pagesize.SelectedIndex = 2;
 		}
 
 
@@ -29,6 +29,9 @@ namespace PersonenVerwaltung.FormsClient
 		{
 			_persons = persons.Items;
 			_lsv_Persons.Items.Clear();
+			int page = int.Parse(_lbl_Page.Text);
+			int pageSize = int.Parse((string) _cmb_Pagesize.SelectedItem!);
+			int last = page * pageSize;
 
 			foreach ( PersonDto person in _persons )
 				_lsv_Persons.Items.Add(new ListViewItem([$"{person.Id}", person.FamilyName, person.GivenName, $"{person.Birthdate}"]));
@@ -44,7 +47,7 @@ namespace PersonenVerwaltung.FormsClient
 				_lbl_Previous.ForeColor = Color.Blue;
 			}
 
-			if ( _persons.Count < int.Parse((string) _cmb_Pagesize.SelectedItem!) )
+			if ( _persons.Count < int.Parse((string) _cmb_Pagesize.SelectedItem!) || last >= persons.TotalCount )
 			{
 				_lbl_Next.Enabled = false;
 				_lbl_Next.ForeColor = Color.Gray;
@@ -56,6 +59,7 @@ namespace PersonenVerwaltung.FormsClient
 			}
 
 			_lsv_Persons.Enabled = true;
+			_cmb_Pagesize.Enabled = true;
 			return true;
 		}
 
@@ -90,6 +94,7 @@ namespace PersonenVerwaltung.FormsClient
 		private void _btn_Load_Click(object? sender, EventArgs e)
 		{
 			_lsv_Persons.Enabled = false;
+			_cmb_Pagesize.Enabled = false;
 
 			if ( !string.IsNullOrWhiteSpace(_txb_Filter.Text) )
 				_loadTask = _client.ListPersonsAsync(_txb_Filter.Text, int.Parse(_lbl_Page.Text) - 1, int.Parse((string) _cmb_Pagesize.SelectedItem!)).ContinueWith(LoadPersonsContinuation);
@@ -97,22 +102,53 @@ namespace PersonenVerwaltung.FormsClient
 				_loadTask = _client.ListPersonsAsync(page: int.Parse(_lbl_Page.Text) - 1, pagesize: int.Parse((string) _cmb_Pagesize.SelectedItem!)).ContinueWith(LoadPersonsContinuation);
 		}
 
-		private void _lbl_Previuos_Click(object? sender, EventArgs e)
+		private void _cmb_Pagesize_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if ( _persons.Count == 0 )
 				return;
 
-			if ( int.Parse(_lbl_Page.Text) == 1 )
+			_lbl_Page.Text = "1";
+			_btn_Load_Click(_btn_Load, EventArgs.Empty);
+		}
+
+		private void _lbl_Previuos_Click(object? sender, EventArgs e)
+		{
+			if ( _persons.Count == 0 )
+			{
+				_lbl_Page.Enabled = false;
+				_lbl_Page.ForeColor = Color.Gray;
 				return;
+			}
+
+			if ( int.Parse(_lbl_Page.Text) == 1 )
+			{
+				_lbl_Page.Enabled = false;
+				_lbl_Page.ForeColor = Color.Gray;
+				return;
+			}
+
+			_lbl_Page.Text = $"{int.Parse(_lbl_Page.Text) - 1}";
+			_btn_Load_Click(_btn_Load, EventArgs.Empty);
 		}
 
 		private void _lbl_Next_Click(object? sender, EventArgs e)
 		{
 			if ( _persons.Count == 0 )
+			{
+				_lbl_Next.Enabled = false;
+				_lbl_Next.ForeColor = Color.Gray;
 				return;
+			}
 
 			if ( _persons.Count < int.Parse((string) _cmb_Pagesize.SelectedItem!) )
+			{
+				_lbl_Next.Enabled = false;
+				_lbl_Next.ForeColor = Color.Gray;
 				return;
+			}
+
+			_lbl_Page.Text = $"{int.Parse(_lbl_Page.Text) + 1}";
+			_btn_Load_Click(_btn_Load, EventArgs.Empty);
 		}
 
 		private void _lsv_Persons_SelectedIndexChanged(object? sender, EventArgs e)
