@@ -190,7 +190,7 @@ namespace PersonenVerwaltung.App.Tests
 		}
 
 		[TestMethod]
-		public async Task ListPersonsAsync_ShouldReturnPageWithTotalCount13AndContaining10Persons_WhenNoPageNumber0AndPagesize10AndFilter_Contains_as_IsProvided()
+		public async Task ListPersonsAsync_ShouldReturnPageWithTotalCount13AndContaining10Persons_WhenPageNumber0AndPagesize10AndFilter_Contains_as_IsProvided()
 		{
 			var client = CreateApiClient();
 
@@ -206,7 +206,7 @@ namespace PersonenVerwaltung.App.Tests
 		}
 
 		[TestMethod]
-		public async Task ListPersonsAsync_ShouldReturnPageWithTotalCount13AndContaining3Persons_WhenNoPageNumber1AndPagesize10AndFilter_Contains_as_IsProvided()
+		public async Task ListPersonsAsync_ShouldReturnPageWithTotalCount13AndContaining3Persons_WhenPageNumber1AndPagesize10AndFilter_Contains_as_IsProvided()
 		{
 			var client = CreateApiClient();
 
@@ -221,6 +221,56 @@ namespace PersonenVerwaltung.App.Tests
 			Assert.HasCount(3, page.Items);
 		}
 
+		[TestMethod]
+		public async Task UpdatePersonAsync_ShouldReturnNoContent_WhenNameUpdateAndPersonIdIsValid()
+		{
+			var client = CreateApiClient();
+			var result = await client.GetPersonAsync(1);
+
+			ServiceClient.PersonDto person1 = result switch { ServiceClient.PersonDto p => p, _ => default };
+
+			if ( person1.Id == 0 )
+				Assert.Fail("result was expected to be a PersonDto object but was not there.");
+
+			ServiceClient.PersonDto person2 = person1;
+
+			while ( person1.FamilyName == person2.FamilyName )
+			{
+				result = await client.GetPersonAsync(2);
+				person2 = result switch { ServiceClient.PersonDto p => p, _ => default };
+
+				if ( person2.Id == 0 )
+					Assert.Fail("result was expected to be a PersonDto object but was not there.");
+			}
+
+			NameUpdateDto update = new NameUpdateDto { FamilyName = person2.FamilyName };
+			var updateResult = await client.UpdatePersonAsync(1, update);
+
+			if ( updateResult switch { NoContent p => false, _ => true } )
+				Assert.Fail("updateResult was expected to be a NoContent object but was not there.");
+
+			result = await client.GetPersonAsync(1);
+
+			ServiceClient.PersonDto updatedPerson = result switch { ServiceClient.PersonDto p => p, _ => default };
+
+			if ( updatedPerson.Id == 0 )
+				Assert.Fail("result was expected to be a PersonDto object but was not there.");
+
+			Assert.AreEqual(update.FamilyName, updatedPerson.FamilyName);
+		}
+
+		[TestMethod]
+		public async Task UpdatePersonAsync_ShouldReturnProblemDetailWithNotFound_WhenPersonIdIsInvalid()
+		{
+			var client = CreateApiClient();
+			var result = await client.GetPersonAsync(1);
+
+			NameUpdateDto update = new NameUpdateDto { FamilyName = "NewFamilyName" };
+			var updateResult = await client.UpdatePersonAsync(251, update);
+
+			if ( updateResult switch { ProblemDetails p => !(p.Status == System.Net.HttpStatusCode.NotFound), _ => true } )
+				Assert.Fail("updateResult was expected to be a ProblemDetails with status NotFound(404).");
+		}
 
 		private static PersonenVerwaltungClient CreateApiClient()
 		{
