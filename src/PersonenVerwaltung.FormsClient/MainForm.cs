@@ -16,6 +16,16 @@ namespace PersonenVerwaltung.FormsClient
 			_lsv_Persons.SelectedIndexChanged += _lsv_Persons_SelectedIndexChanged;
 			_cmb_Pagesize.SelectedIndex = 2;
 			_lastFilter = _txb_Filter.Text;
+
+			ToolTip toolTip1 = new ToolTip
+			{
+				AutoPopDelay = 10000,
+				InitialDelay = 500,
+				ReshowDelay = 200,
+				ShowAlways = true
+			};
+
+			toolTip1.SetToolTip(_txb_Filter, "Use wildcards for filtering (EndsWith: *xxx / StartsWith: xxx* / Contains: *xxx*)");
 		}
 
 
