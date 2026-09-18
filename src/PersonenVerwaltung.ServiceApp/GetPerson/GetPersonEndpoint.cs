@@ -13,7 +13,6 @@ namespace PersonenVerwaltung.App.GetPerson
 			{
 				return await service.GetPersonAsync(personId, context.RequestAborted) switch
 				{
-					NoOpResult => TypedResults.InternalServerError(),
 					Person p => TypedResults.Json(PersonDto.FromPerson(p)),
 					Exception err => err switch
 					{

@@ -19,7 +19,6 @@ namespace PersonenVerwaltung.App.UpdatePerson
 
 				return await service.UpdatePersonAsync(personId, update, context.RequestAborted) switch
 				{
-					NoOpResult => TypedResults.InternalServerError(),
 					Person p => TypedResults.NoContent(),
 					Exception err => err switch
 					{

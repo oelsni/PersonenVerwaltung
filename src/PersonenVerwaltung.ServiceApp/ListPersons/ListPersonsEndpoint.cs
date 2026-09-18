@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -64,7 +63,6 @@ namespace PersonenVerwaltung.App.ListPersons
 
 				return result switch
 				{
-					NoOpResult => TypedResults.InternalServerError(),
 					PersonPage page => TypedResults.Json(new PageDto<PersonDto> { Items = page.Persons.Select(PersonDto.FromPerson), TotalCount = page.TotalCount }),
 					Exception err => err switch
 					{
