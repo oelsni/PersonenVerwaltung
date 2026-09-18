@@ -65,7 +65,7 @@ namespace PersonenVerwaltung.App.ListPersons
 				return result switch
 				{
 					NoOpResult => TypedResults.InternalServerError(),
-					PersonPage page => TypedResults.Json(CreatePage(in page)),
+					PersonPage page => TypedResults.Json(new PageDto<PersonDto> { Items = page.Persons.Select(PersonDto.FromPerson), TotalCount = page.TotalCount }),
 					Exception err => err switch
 					{
 						ArgumentException aex => TypedResults.Problem(aex.Message, "api/personen-verwaltung/v1/personen", 400, "BadRequest", "GET"),
@@ -86,16 +86,6 @@ namespace PersonenVerwaltung.App.ListPersons
 			}
 		}
 
-
-		private static PageDto<PersonDto> CreatePage(in PersonPage page)
-		{
-			if ( page.TotalCount == 0 )
-			{
-				Debug.WriteLine("");
-			}
-
-			return new PageDto<PersonDto> { Items = page.Persons.Select(PersonDto.FromPerson), TotalCount = page.TotalCount };
-		}
 
 		private static string GetNormalizedFilterAndSearchMethod(string? filter, out SearchMethod method)
 		{

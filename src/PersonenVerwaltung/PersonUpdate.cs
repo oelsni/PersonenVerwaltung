@@ -10,5 +10,8 @@
 
 		public string? GivenName
 		{ get; init; }
+
+
+		public override string ToString() => $"{FamilyName}|{GivenName}|{Birthdate}";
 	}
 }

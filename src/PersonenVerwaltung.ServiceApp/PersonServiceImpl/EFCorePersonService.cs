@@ -1,12 +1,17 @@
 ﻿using System.Linq.Expressions;
 
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
 namespace PersonenVerwaltung.App.PersonServiceImpl
 {
 	public class EFCorePersonService : IPersonService
 	{
-		public EFCorePersonService(PersonalVerwaltungContext context) => _context = context;
+		public EFCorePersonService(PersonalVerwaltungContext context, ILogger<EFCorePersonService> logger)
+		{
+			_context = context;
+			_logger = logger;
+		}
 
 
 		public async ValueTask<Result<PersonPage>> FilterPersonsAsync(Expression<Func<Person, bool>> predicate, int page = 0, int pagesize = 20, CancellationToken cancellationToken = default)
@@ -32,6 +37,8 @@ namespace PersonenVerwaltung.App.PersonServiceImpl
 			}
 			catch ( Exception ex )
 			{
+				_logger.LogError(ex, "[{ServiceType}]: {Method} failed with '{Predicate}'. (Page: {Page} | Pagesize: {Pagesize})", nameof(EFCorePersonService), "FilterPersonsAsync", predicate, page, pagesize);
+
 				return ex;
 			}
 		}
@@ -54,6 +61,8 @@ namespace PersonenVerwaltung.App.PersonServiceImpl
 			}
 			catch ( Exception ex )
 			{
+				_logger.LogError(ex, "[{ServiceType}]: {Method} failed for '{PersonId}'.", nameof(EFCorePersonService), "GetPersonAsync", id);
+
 				return ex;
 			}
 		}
@@ -79,6 +88,8 @@ namespace PersonenVerwaltung.App.PersonServiceImpl
 			}
 			catch ( Exception ex )
 			{
+				_logger.LogError(ex, "[{ServiceType}]: {Method} failed with page '{Page}' and pagesize '{Pagesize}'", nameof(EFCorePersonService), "ListPersonsAsync", page, pagesize);
+
 				return ex;
 			}
 		}
@@ -105,6 +116,8 @@ namespace PersonenVerwaltung.App.PersonServiceImpl
 			}
 			catch ( Exception ex )
 			{
+				_logger.LogError(ex, "[{ServiceType}]: {Method} failed for '{PersonId}' with update '{PersonUpdate}'.", nameof(EFCorePersonService), "UpdatePersonAsync", id, update);
+
 				return ex;
 			}
 		}
@@ -163,6 +176,9 @@ namespace PersonenVerwaltung.App.PersonServiceImpl
 				}).ToArray(),
 			};
 
+
+		readonly ILogger<EFCorePersonService>
+			_logger;
 
 		readonly PersonalVerwaltungContext
 			_context;
