@@ -15,6 +15,7 @@ namespace PersonenVerwaltung.FormsClient
 			_client = client;
 			_lsv_Persons.SelectedIndexChanged += _lsv_Persons_SelectedIndexChanged;
 			_cmb_Pagesize.SelectedIndex = 2;
+			_lastFilter = _txb_Filter.Text;
 		}
 
 
@@ -96,6 +97,11 @@ namespace PersonenVerwaltung.FormsClient
 			_lsv_Persons.Enabled = false;
 			_cmb_Pagesize.Enabled = false;
 
+			if ( _lastFilter != _txb_Filter.Text )
+				_lbl_Page.Text = "1";
+
+			_lastFilter = _txb_Filter.Text;
+
 			if ( !string.IsNullOrWhiteSpace(_txb_Filter.Text) )
 				_loadTask = _client.ListPersonsAsync(_txb_Filter.Text, int.Parse(_lbl_Page.Text) - 1, int.Parse((string) _cmb_Pagesize.SelectedItem!)).ContinueWith(LoadPersonsContinuation);
 			else
@@ -113,17 +119,10 @@ namespace PersonenVerwaltung.FormsClient
 
 		private void _lbl_Previuos_Click(object? sender, EventArgs e)
 		{
-			if ( _persons.Count == 0 )
-			{
-				_lbl_Page.Enabled = false;
-				_lbl_Page.ForeColor = Color.Gray;
-				return;
-			}
-
 			if ( int.Parse(_lbl_Page.Text) == 1 )
 			{
-				_lbl_Page.Enabled = false;
-				_lbl_Page.ForeColor = Color.Gray;
+				_lbl_Previous.Enabled = false;
+				_lbl_Previous.ForeColor = Color.Gray;
 				return;
 			}
 
@@ -180,5 +179,8 @@ namespace PersonenVerwaltung.FormsClient
 		Task
 			_loadTask,
 			_updateTask;
+
+		string
+			_lastFilter;
 	}
 }
