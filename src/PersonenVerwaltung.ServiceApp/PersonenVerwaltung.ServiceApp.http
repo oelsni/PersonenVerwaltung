@@ -1,0 +1,16 @@
+@PersonalVerwaltung_HostAddress = http://localhost:5284
+
+GET {{PersonalVerwaltung_HostAddress}}/api/personal-verwaltung/v1/person/1
+Accept: application/json
+
+###
+
+GET {{PersonalVerwaltung_HostAddress}}/api/personal-verwaltung/v1/personen
+Accept: application/json
+
+###
+
+PATCH {{PersonalVerwaltung_HostAddress}}/api/personal-verwaltung/v1/person/1
+Accept: application/json
+Body: {"FamilyName": "Ölsner"}
+###

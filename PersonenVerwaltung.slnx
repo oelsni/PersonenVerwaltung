@@ -1,0 +1,28 @@
+<Solution>
+  <Folder Name="/mssql-database-scripts/">
+    <File Path="mssql-database-scripts/AddAndUpdateColumn.sql" />
+    <File Path="mssql-database-scripts/CreateDatabase.sql" />
+    <File Path="mssql-database-scripts/CreateTables.sql" />
+    <File Path="mssql-database-scripts/CreateView.sql" />
+    <File Path="mssql-database-scripts/DeletePhoneNumbers.sql" />
+    <File Path="mssql-database-scripts/FilterPersons.sql" />
+    <File Path="mssql-database-scripts/SeedTables.sql" />
+  </Folder>
+  <Folder Name="/Projektmappenelemente/">
+    <File Path=".gitignore" />
+    <File Path="aspire.config.json" />
+    <File Path="Directory.Build.targets" />
+    <File Path="Readme.md" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/PersonenVerwaltung.FormsAppHost/PersonenVerwaltung.FormsAppHost.csproj" />
+    <Project Path="src/PersonenVerwaltung.FormsClient/PersonenVerwaltung.FormsClient.csproj" Id="d503cc2b-d079-4447-88d3-cb10a94113ac" />
+    <Project Path="src/PersonenVerwaltung.ServiceApp/PersonenVerwaltung.ServiceApp.csproj" />
+    <Project Path="src/PersonenVerwaltung.ServiceClient/PersonenVerwaltung.ServiceClient.csproj" Id="451ee780-b6c4-4a48-b18a-a94f3403ea70" />
+    <Project Path="src/PersonenVerwaltung.ServiceDefaults/PersonenVerwaltung.ServiceDefaults.csproj" />
+    <Project Path="src/PersonenVerwaltung/PersonenVerwaltung.csproj" Id="f6ca3060-0bac-4cb0-b256-506a5d953e9f" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/PersonenVerwaltung.FormsApp.Tests/PersonenVerwaltung.FormsApp.Tests.csproj" Id="c12728e2-639f-44d3-882a-e1e1e24002d5" />
+  </Folder>
+</Solution>

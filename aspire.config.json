@@ -1,0 +1,5 @@
+{
+    "appHost": {
+        "path": "src/PersonenVerwaltung.FormsAppHost/PersonenVerwaltung.FormsAppHost.csproj"
+    }
+}
