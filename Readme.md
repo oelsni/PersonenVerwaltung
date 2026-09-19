@@ -34,7 +34,7 @@ Die Scripts sind nach Teilaufgaben Unterteilt:
   - SeedTables.sql (168 Nummern mit + beginnend / 152 Nummern mit 0 beginnend / 40 Nummern ohne 0 oder + am Anfang)
 - Anzahl aller Personen sowie die Anzahl von Personen mit mehr als einer Telefonverbindung als auch Anzahl der Personen die in Dresden ihre Anschrift haben
   - FilterPersons.sql
-- Telefonverbindungen löschen wo die Nummer weder mit 0 noch + beginnen
+- Telefonverbindungen löschen mit Nummern die weder eine führende 0 noch + besitzen
   - DeletePhoneNumbers.sql
 - Ansicht erstellen für Person einschließlich der Anschrift sowie Telefonnummer
   - CreateView.sql
