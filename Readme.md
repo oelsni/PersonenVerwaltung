@@ -38,7 +38,7 @@ Die Scripts sind nach Teilaufgaben Unterteilt:
   - DeletePhoneNumbers.sql
 - Ansicht erstellen für Person einschließlich der Anschrift sowie Telefonnummer
   - CreateView.sql
-- Neue Spalte zu Person-Entität hinzufügen and diese mit dem Namen in Großbuchstaben befüllen der jeweiligen Person befüllen
+- Neue Spalte zu Person-Entität hinzufügen und diese mit dem Namen in Großbuchstaben befüllen der jeweiligen Person befüllen
   - AddAndUpdateColumn.sql
 
 # Projektmappen-Aufbau
