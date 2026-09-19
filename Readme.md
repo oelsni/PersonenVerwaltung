@@ -20,7 +20,7 @@ Um die Aspire-CLI zu installieren reicht es folgendes Power-Script auszuführen:
 irm https://aspire.dev/install.ps1 | iex
 ```
 
-Für das Test-Projekt ist Docker-Desktop oder vergleichbarem von Nöten da dieses TestContainers verwendet um Integrationtests zu ermöglichen.
+Für das Test-Projekt ist Docker-Desktop oder vergleichbares von Nöten da dieses TestContainers verwendet um Integrationtests zu ermöglichen.
 
 # Datenbank-Aufgaben
 Die Aufgaben hinsichtlich der Datenbank habe ich in MsSql umgesetzt und sind im Ordner 'mssql-database-scripts' zu finden.
@@ -32,7 +32,7 @@ Die Scripts sind nach Teilaufgaben Unterteilt:
   - CreateTables.sql
 - Tabellen mit Daten füllen wobei gilt, jede Person hat eine Anschrift und keine bis mehrere Telefonverbindungen
   - SeedTables.sql (168 Nummern mit + beginnend / 152 Nummern mit 0 beginnend / 40 Nummern ohne 0 oder + am Anfang)
-- Anzahl aller Personen sowie die Anzahl von Personen mit mehr als einer Telefonverbindung als auch Anzahl der Personen wie in Dresden ihre Anschrift haben
+- Anzahl aller Personen sowie die Anzahl von Personen mit mehr als einer Telefonverbindung als auch Anzahl der Personen die in Dresden ihre Anschrift haben
   - FilterPersons.sql
 - Telefonverbindungen löschen wo die Nummer weder mit 0 noch + beginnen
   - DeletePhoneNumbers.sql
